@@ -81,7 +81,7 @@ const BookView = () => {
     const deltaY = Math.abs(touchEnd.clientY - touchStartRef.current.y);
     const deltaTime = Date.now() - touchStartRef.current.time;
     
-    // Only trigger if horizontal swipe is dominant and quick enough
+    // Swipe detection: horizontal swipe is dominant and quick enough
     if (Math.abs(deltaX) > 50 && deltaY < 100 && deltaTime < 500) {
       if (deltaX > 0) {
         prevPage(); // Swipe right = previous page
@@ -89,6 +89,31 @@ const BookView = () => {
         nextPage(); // Swipe left = next page
       }
     }
+    // Tap detection: small movement, quick tap
+    else if (Math.abs(deltaX) < 10 && deltaY < 10 && deltaTime < 300) {
+      const windowWidth = window.innerWidth;
+      const tapX = touchEnd.clientX;
+      
+      // Tap on left half = previous page, right half = next page
+      if (tapX < windowWidth / 2) {
+        prevPage();
+      } else {
+        nextPage();
+      }
+    }
+  };
+
+  // Handle page area clicks/taps
+  const handleLeftPageClick = (e) => {
+    // Don't trigger if clicking on arrow button
+    if (e.target.closest('.nav-arrow')) return;
+    prevPage();
+  };
+
+  const handleRightPageClick = (e) => {
+    // Don't trigger if clicking on arrow button
+    if (e.target.closest('.nav-arrow')) return;
+    nextPage();
   };
 
   const currentPageData = bookData[currentPage];
@@ -121,7 +146,11 @@ const BookView = () => {
           transition={{ duration: 0.8, type: "spring" }}
         >
           {/* Left Page */}
-          <div className="page left-page">
+          <div 
+            className="page left-page"
+            onClick={handleLeftPageClick}
+            style={{ cursor: currentPage > 0 ? 'pointer' : 'default' }}
+          >
             <div className="page-content">
               {currentPage > 0 ? (
                 <>
@@ -154,7 +183,11 @@ const BookView = () => {
           <div className="book-spine-shadow"></div>
 
           {/* Right Page with Flip Animation */}
-          <div className={`page right-page ${isFlipping ? 'flipping' : ''} ${flipDirection}`}>
+          <div 
+            className={`page right-page ${isFlipping ? 'flipping' : ''} ${flipDirection}`}
+            onClick={handleRightPageClick}
+            style={{ cursor: currentPage < totalPages - 1 ? 'pointer' : 'default' }}
+          >
             <AnimatePresence mode="wait">
               <motion.div 
                 key={currentPage}
