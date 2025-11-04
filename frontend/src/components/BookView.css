@@ -175,6 +175,7 @@
     0 0 40px rgba(0, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
+  padding: 30px;
 }
 
 .cover-page::before {
@@ -189,7 +190,7 @@
 .cover-content {
   text-align: center;
   z-index: 1;
-  padding: 40px;
+  padding: 30px;
 }
 
 .book-main-title {
@@ -224,7 +225,7 @@
 /* Page Image */
 .page-image-container {
   width: 100%;
-  height: 45%;
+  height: 50%;
   margin-bottom: 20px;
   border-radius: 10px;
   overflow: hidden;
@@ -232,17 +233,21 @@
     0 10px 30px rgba(0, 0, 0, 0.3),
     inset 0 0 10px rgba(0, 0, 0, 0.1);
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .page-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.3s ease;
 }
 
 .page-image:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 /* Page Title */
@@ -393,41 +398,42 @@
 /* Back Button */
 .back-button {
   position: absolute;
-  bottom: 40px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 15px 40px;
+  padding: 10px 25px;
   border: none;
   border-radius: 50px;
   font-family: 'Poppins', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   z-index: 30;
   box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 5px 20px rgba(0, 0, 0, 0.4),
     inset 0 -2px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
 
 .back-button:hover {
   box-shadow: 
-    0 15px 40px rgba(0, 0, 0, 0.5),
+    0 8px 25px rgba(0, 0, 0, 0.5),
     inset 0 -2px 8px rgba(0, 0, 0, 0.3),
-    0 0 30px currentColor;
+    0 0 20px currentColor;
+  transform: translateX(-50%) scale(1.05);
 }
 
 .back-icon {
-  font-size: 24px;
+  font-size: 18px;
   transition: transform 0.3s ease;
 }
 
 .back-button:hover .back-icon {
-  transform: translateX(-5px);
+  transform: translateX(-3px);
 }
 
 /* Responsive Design */
@@ -439,6 +445,10 @@
 
   .page {
     padding: 30px;
+  }
+
+  .page-image-container {
+    height: 45%;
   }
 
   .nav-arrow {
@@ -482,6 +492,10 @@
     display: none;
   }
 
+  .page-image-container {
+    height: 45%;
+  }
+
   .nav-arrow {
     width: 45px;
     height: 45px;
@@ -497,13 +511,13 @@
   }
 
   .back-button {
-    bottom: 20px;
-    padding: 12px 30px;
-    font-size: 16px;
+    bottom: 15px;
+    padding: 8px 20px;
+    font-size: 13px;
   }
 
-  .page-image-container {
-    height: 40%;
+  .back-icon {
+    font-size: 16px;
   }
 }
 
@@ -516,6 +530,10 @@
     padding: 15px;
   }
 
+  .page-image-container {
+    height: 40%;
+  }
+
   .page-title {
     font-size: 1.3rem;
   }
@@ -526,7 +544,11 @@
   }
 
   .back-button {
-    padding: 10px 25px;
+    padding: 8px 18px;
+    font-size: 12px;
+  }
+
+  .back-icon {
     font-size: 14px;
   }
 }

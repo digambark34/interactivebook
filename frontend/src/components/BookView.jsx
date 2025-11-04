@@ -10,8 +10,7 @@ const BookView = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
   const [flipDirection, setFlipDirection] = useState('');
-  const autoFlipTimerRef = useRef(null);
-  const idleTimerRef = useRef(null);
+  const touchStartRef = useRef({ x: 0, y: 0 });
   
   const bookData = cityBooks[cityName] || [];
   const totalPages = bookData.length;
@@ -35,7 +34,6 @@ const BookView = () => {
       setTimeout(() => {
         setCurrentPage(prev => prev + 1);
         setIsFlipping(false);
-        resetIdleTimer();
       }, 600);
     }
   };
@@ -49,57 +47,9 @@ const BookView = () => {
       setTimeout(() => {
         setCurrentPage(prev => prev - 1);
         setIsFlipping(false);
-        resetIdleTimer();
       }, 600);
     }
   };
-
-  // Auto-flip demo after 30 seconds of inactivity
-  const resetIdleTimer = () => {
-    if (idleTimerRef.current) {
-      clearTimeout(idleTimerRef.current);
-    }
-    if (autoFlipTimerRef.current) {
-      clearInterval(autoFlipTimerRef.current);
-    }
-
-    idleTimerRef.current = setTimeout(() => {
-      startAutoFlip();
-    }, 30000); // 30 seconds
-  };
-
-  const startAutoFlip = () => {
-    autoFlipTimerRef.current = setInterval(() => {
-      setIsFlipping(true);
-      setFlipDirection('next');
-      playFlipSound();
-      
-      setTimeout(() => {
-        setCurrentPage(prev => {
-          const next = prev + 1;
-          return next >= totalPages ? 0 : next;
-        });
-        setIsFlipping(false);
-      }, 600);
-    }, 3000); // Flip every 3 seconds
-  };
-
-  const stopAutoFlip = () => {
-    if (autoFlipTimerRef.current) {
-      clearInterval(autoFlipTimerRef.current);
-    }
-    if (idleTimerRef.current) {
-      clearTimeout(idleTimerRef.current);
-    }
-  };
-
-  useEffect(() => {
-    resetIdleTimer();
-    
-    return () => {
-      stopAutoFlip();
-    };
-  }, []);
 
   // Touch and keyboard navigation
   useEffect(() => {
@@ -113,20 +63,30 @@ const BookView = () => {
   }, [currentPage, isFlipping]);
 
   const handleBackToHome = () => {
-    stopAutoFlip();
     navigate('/');
   };
 
-  const handleTouchStart = useRef({ x: 0, y: 0 });
+  // Improved touch handling for swipe gestures
+  const handleTouchStart = (e) => {
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+      time: Date.now()
+    };
+  };
+
   const handleTouchEnd = (e) => {
     const touchEnd = e.changedTouches[0];
-    const deltaX = touchEnd.clientX - handleTouchStart.current.x;
+    const deltaX = touchEnd.clientX - touchStartRef.current.x;
+    const deltaY = Math.abs(touchEnd.clientY - touchStartRef.current.y);
+    const deltaTime = Date.now() - touchStartRef.current.time;
     
-    if (Math.abs(deltaX) > 50) {
+    // Only trigger if horizontal swipe is dominant and quick enough
+    if (Math.abs(deltaX) > 50 && deltaY < 100 && deltaTime < 500) {
       if (deltaX > 0) {
-        prevPage();
+        prevPage(); // Swipe right = previous page
       } else {
-        nextPage();
+        nextPage(); // Swipe left = next page
       }
     }
   };
@@ -151,15 +111,8 @@ const BookView = () => {
       {/* Book Container */}
       <div 
         className="book-container"
-        onTouchStart={(e) => {
-          handleTouchStart.current = {
-            x: e.touches[0].clientX,
-            y: e.touches[0].clientY
-          };
-          stopAutoFlip();
-        }}
+        onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        onClick={stopAutoFlip}
       >
         <motion.div 
           className="open-book"
