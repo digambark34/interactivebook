@@ -1,20 +1,22 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { cityVideos, cityColors } from '../data/cityBooks';
+import { bookVideos, bookColors } from '../data/agaKhanBooks';
 import './HomePage.css';
 
 const HomePage = () => {
   const navigate = useNavigate();
   
-  const cities = [
-    { name: 'Kolkata', subtitle: 'City of Joy' },
-    { name: 'Varanasi', subtitle: 'Spiritual Heart' },
-    { name: 'Jaipur', subtitle: 'Pink City' },
-    { name: 'Mumbai', subtitle: 'City of Dreams' }
+  const books = [
+    { name: 'His Highness', subtitle: 'The 49th Imam', icon: '👑' },
+    { name: 'Development Network', subtitle: 'Global Impact', icon: '🌍' },
+    { name: 'Architecture & Culture', subtitle: 'Heritage & Arts', icon: '🕌' },
+    { name: 'Business & Investment', subtitle: 'Economic Growth', icon: '💼' },
+    { name: 'Philanthropy & Impact', subtitle: 'Humanitarian Work', icon: '❤️' },
+    { name: 'Heritage & History', subtitle: 'Ismaili Legacy', icon: '📜' }
   ];
 
-  const handleBookClick = (cityName) => {
-    navigate(`/book/${cityName}`);
+  const handleBookClick = (bookName) => {
+    navigate(`/book/${encodeURIComponent(bookName)}`);
   };
 
   return (
@@ -22,7 +24,7 @@ const HomePage = () => {
       {/* Background Video */}
       <div className="video-background">
         <video autoPlay loop muted playsInline>
-          <source src={cityVideos.Home} type="video/mp4" />
+          <source src={bookVideos.Home} type="video/mp4" />
         </video>
         <div className="video-overlay"></div>
       </div>
@@ -35,8 +37,16 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          <h1 className="main-title">Journey Through India</h1>
-          <p className="subtitle">Discover the soul of incredible cities</p>
+          <h1 className="main-title">The Aga Khan Family</h1>
+          <p className="subtitle">Leadership • Heritage • Vision • Impact</p>
+          <motion.div 
+            className="title-ornament"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            ✦
+          </motion.div>
         </motion.div>
 
         {/* 3D Bookshelf */}
@@ -47,9 +57,9 @@ const HomePage = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            {cities.map((city, index) => (
+            {books.map((book, index) => (
               <motion.div
-                key={city.name}
+                key={book.name}
                 className="book-wrapper"
                 initial={{ opacity: 0, y: 100, rotateY: -20 }}
                 animate={{ opacity: 1, y: 0, rotateY: 0 }}
@@ -67,21 +77,24 @@ const HomePage = () => {
                   transition: { duration: 0.3 }
                 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => handleBookClick(city.name)}
+                onClick={() => handleBookClick(book.name)}
               >
-                <div className={`book book-${city.name.toLowerCase()}`}>
+                <div className={`book book-${index + 1}`}>
                   <div className="book-spine">
                     <div className="spine-content">
-                      <h3>{city.name}</h3>
-                      <span className="book-subtitle">{city.subtitle}</span>
+                      <span className="book-icon">{book.icon}</span>
+                      <h3>{book.name}</h3>
+                      <span className="book-subtitle">{book.subtitle}</span>
                     </div>
                   </div>
-                  <div className="book-cover">
+                  <div className="book-cover" style={{ background: bookColors[book.name].gradient }}>
                     <div className="cover-design">
-                      <div className="cover-ornament top"></div>
-                      <h2 className="cover-title">{city.name}</h2>
-                      <p className="cover-subtitle">{city.subtitle}</p>
-                      <div className="cover-ornament bottom"></div>
+                      <div className="cover-ornament top">✦</div>
+                      <span className="cover-icon">{book.icon}</span>
+                      <h2 className="cover-title">{book.name}</h2>
+                      <p className="cover-subtitle">{book.subtitle}</p>
+                      <div className="cover-ornament bottom">✦</div>
+                      <div className="cover-shimmer"></div>
                     </div>
                   </div>
                   <div className="book-pages"></div>
@@ -93,7 +106,7 @@ const HomePage = () => {
                   initial={{ opacity: 0 }}
                   whileHover={{ opacity: 1 }}
                   style={{ 
-                    background: cityColors[city.name].gradient 
+                    background: bookColors[book.name].gradient 
                   }}
                 ></motion.div>
               </motion.div>
@@ -116,7 +129,21 @@ const HomePage = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 2 }}
         >
-          <p>✨ Touch a book to begin your journey ✨</p>
+          <p>✦ Touch a book to explore the Aga Khan Family legacy ✦</p>
+          <motion.p 
+            className="touch-hint"
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.7, 1, 0.7]
+            }}
+            transition={{ 
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            👆 Tap to Open
+          </motion.p>
         </motion.div>
       </div>
     </div>
