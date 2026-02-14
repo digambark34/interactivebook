@@ -594,19 +594,19 @@
 /* Back Button - Enhanced for Touchscreen */
 .back-button {
   position: absolute;
-  top: 30px;
+  top: 14px;
   left: 30px;
-  padding: 15px 30px;
+  padding: 18px 40px;
   border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50px;
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   z-index: 30;
   box-shadow: 
     0 5px 25px rgba(0, 0, 0, 0.5),
@@ -627,7 +627,7 @@
 }
 
 .back-icon {
-  font-size: 24px;
+  font-size: 28px;
   transition: transform 0.3s ease;
 }
 
@@ -715,12 +715,12 @@
 
   .back-button {
     bottom: 15px;
-    padding: 8px 20px;
-    font-size: 13px;
+    padding: 12px 28px;
+    font-size: 16px;
   }
 
   .back-icon {
-    font-size: 16px;
+    font-size: 20px;
   }
 }
 
@@ -747,12 +747,12 @@
   }
 
   .back-button {
-    padding: 8px 18px;
-    font-size: 12px;
+    padding: 10px 24px;
+    font-size: 14px;
   }
 
   .back-icon {
-    font-size: 14px;
+    font-size: 18px;
   }
 }
 
@@ -845,8 +845,8 @@
   }
   
   .back-button {
-    padding: 20px 40px;
-    font-size: 20px;
+    padding: 24px 50px;
+    font-size: 24px;
   }
   
   .hint {
