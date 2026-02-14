@@ -5,27 +5,27 @@ const agaKhanBooks = {
     {
       title: "His Highness the Aga Khan",
       text: "Prince Karim Aga Khan IV, born December 13, 1936, is the 49th hereditary Imam of the Shia Ismaili Muslims. As a direct descendant of Prophet Muhammad through his daughter Fatima and cousin Ali, he has guided over 15 million followers worldwide since 1957. His leadership emphasizes education, health, culture, and economic development.",
-      image: "/agakhan-main.jpg",
+      image: "/pictures/agafamily.jpg",
     },
     {
       title: "Leadership & Vision",
       text: "For over 65 years, the Aga Khan has championed pluralism, diversity, and meritocracy. His vision transcends religious boundaries, focusing on improving quality of life for all people regardless of faith, origin, or gender. He established the Aga Khan Development Network (AKDN) as a global force for human development.",
-      image: "/agakhan-leadership.jpg",
+      image: "/pictures/images.png",
     },
     {
       title: "Education & Philosophy",
       text: "Educated at Harvard University where he studied Islamic history, the Aga Khan believes education is the foundation of progress. He has established universities, schools, and training centers across Asia, Africa, and the Middle East, ensuring access to quality education for millions of children and adults.",
-      image: "/agakhan-education.jpg",
+      image: "/pictures/agafamily.jpg",
     },
     {
       title: "Awards & Recognition",
       text: "His Highness has received numerous international awards including the Légion d'honneur (France), Order of Canada, and the Padma Vibhushan (India). He has been recognized by governments and institutions worldwide for his humanitarian work, architectural patronage, and diplomatic efforts.",
-      image: "/agakhan-awards.jpg",
+      image: "/pictures/images.png",
     },
     {
       title: "Personal Life & Legacy",
       text: "The Aga Khan is an accomplished horseman and aviation enthusiast. His Highness owns one of the world's most successful horse breeding and racing operations. His passion for excellence extends to architecture, art, and culture, creating a lasting legacy that bridges tradition and modernity.",
-      image: "/agakhan-legacy.jpg",
+      image: "/pictures/agafamily.jpg",
     },
   ],
 

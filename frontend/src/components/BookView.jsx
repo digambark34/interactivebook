@@ -195,11 +195,13 @@ const BookView = () => {
         >
           {/* Left Page */}
           <div 
-            className="page left-page"
+            className={`page left-page ${isFlipping && flipDirection === 'prev' ? 'flipping' : ''} ${flipDirection}`}
             onClick={handleLeftPageClick}
             style={{ 
               cursor: currentPage > 0 ? 'pointer' : 'default',
-              touchAction: 'manipulation'
+              touchAction: 'manipulation',
+              transform: flipDirection === 'prev' ? `rotateY(${pageFlipAngle}deg)` : 'rotateY(0deg)',
+              transformOrigin: 'right center'
             }}
           >
             <div className="page-content">
@@ -255,7 +257,14 @@ const BookView = () => {
             <div className="page-number" style={{ color: colors.primary }}>
               {currentPage > 0 ? currentPage : ''}
             </div>
-            {currentPage > 0 && <div className="page-texture"></div>}
+            {currentPage > 0 && (
+              <>
+                <div className="page-curl page-curl-left" style={{ 
+                  background: `linear-gradient(to right, transparent, ${safeColors.primary}15, transparent)` 
+                }}></div>
+                <div className="page-texture"></div>
+              </>
+            )}
           </div>
 
           {/* Book Spine Shadow */}
@@ -263,12 +272,12 @@ const BookView = () => {
 
           {/* Right Page with Enhanced 3D Flip Animation */}
           <div 
-            className={`page right-page ${isFlipping ? 'flipping' : ''} ${flipDirection}`}
+            className={`page right-page ${isFlipping && flipDirection === 'next' ? 'flipping' : ''} ${flipDirection}`}
             onClick={handleRightPageClick}
             style={{ 
               cursor: currentPage < totalPages - 1 ? 'pointer' : 'default',
               touchAction: 'manipulation',
-              transform: `rotateY(${pageFlipAngle}deg)`,
+              transform: flipDirection === 'next' ? `rotateY(${pageFlipAngle}deg)` : 'rotateY(0deg)',
               transformOrigin: 'left center'
             }}
           >
@@ -398,30 +407,6 @@ const BookView = () => {
         <span className="back-text">Back to Library</span>
       </motion.button>
 
-      {/* Touch Hints for LED Display */}
-      <motion.div 
-        className="touch-hints"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-      >
-        <motion.div 
-          className="hint hint-left"
-          animate={{ x: [-5, 5, -5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          style={{ color: colors?.primary || '#FFD700' }}
-        >
-          ← Swipe or Tap
-        </motion.div>
-        <motion.div 
-          className="hint hint-right"
-          animate={{ x: [5, -5, 5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          style={{ color: colors?.primary || '#FFD700' }}
-        >
-          Swipe or Tap →
-        </motion.div>
-      </motion.div>
     </div>
   );
 };
