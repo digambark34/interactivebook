@@ -12,6 +12,7 @@ const BookView = () => {
   const [isFlipping, setIsFlipping] = useState(false);
   const [flipDirection, setFlipDirection] = useState('');
   const [pageFlipAngle, setPageFlipAngle] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const touchStartRef = useRef({ x: 0, y: 0 });
   const animationFrameRef = useRef(null);
   
@@ -73,6 +74,30 @@ const BookView = () => {
   const handleBackToHome = () => {
     navigate('/');
   };
+
+  // Fullscreen toggle handler
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        setIsFullscreen(true);
+      }).catch(err => {
+        console.log('Error attempting to enable fullscreen:', err);
+      });
+    } else {
+      document.exitFullscreen().then(() => {
+        setIsFullscreen(false);
+      });
+    }
+  };
+
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   // Enhanced touch handling for LED touchscreen displays
   const handleTouchStart = (e) => {
@@ -340,34 +365,32 @@ const BookView = () => {
           <div className="indicator-label" style={{ color: colors?.primary || '#fff' }}>
             Page {currentPage + 1} of {totalPages}
           </div>
-          <div className="indicator-dots">
-            {bookData.map((_, index) => (
-              <motion.div 
-                key={index}
-                className={`indicator-dot ${index === currentPage ? 'active' : ''}`}
-                style={{ 
-                  backgroundColor: index === currentPage ? colors?.primary : '#999',
-                  transform: index === currentPage ? 'scale(1.3)' : 'scale(1)',
-                  cursor: 'pointer'
-                }}
-                whileHover={{ scale: 1.5 }}
-                onClick={() => !isFlipping && index !== currentPage && (
-                  index > currentPage ? performPageFlip('next', index) : performPageFlip('prev', index)
-                )}
-              ></motion.div>
-            ))}
-          </div>
         </motion.div>
       </div>
 
-      {/* Back Button - Enhanced for Touchscreen */}
+      {/* Fullscreen Button - Top Left Corner */}
+      <motion.button 
+        className="fullscreen-button"
+        onClick={toggleFullscreen}
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.5, type: "spring" }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        style={{ background: colors?.gradient || '#1e3a8a' }}
+        title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+      >
+        <span className="fullscreen-icon">{isFullscreen ? '✕' : '⛶'}</span>
+      </motion.button>
+
+      {/* Back Button - Bottom Middle */}
       <motion.button 
         className="back-button"
         onClick={handleBackToHome}
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.7, type: "spring" }}
-        whileHover={{ scale: 1.1, x: 10 }}
+        whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         style={{ background: colors?.gradient || '#1e3a8a' }}
       >
