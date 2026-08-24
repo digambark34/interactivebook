@@ -355,24 +355,13 @@ const BookView = () => {
           </motion.button>
         </motion.div>
 
-        {/* Enhanced Page Indicator for LED Display */}
-        <motion.div 
-          className="page-indicator"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <div className="indicator-label" style={{ color: colors?.primary || '#fff' }}>
-            Page {currentPage + 1} of {totalPages}
-          </div>
-        </motion.div>
       </div>
 
-      {/* Fullscreen Button - Top Left Corner */}
+      {/* Fullscreen Button - Top Right Corner */
       <motion.button 
         className="fullscreen-button"
         onClick={toggleFullscreen}
-        initial={{ x: -100, opacity: 0 }}
+        initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.5, type: "spring" }}
         whileHover={{ scale: 1.1 }}
