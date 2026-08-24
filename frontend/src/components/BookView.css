@@ -799,6 +799,46 @@
   letter-spacing: 0.5px;
 }
 
+/* Fullscreen Button - Small in Top Right Corner */
+.fullscreen-button {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.4),
+    inset 0 0 15px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fullscreen-button:hover {
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.5),
+    0 0 25px currentColor,
+    inset 0 0 20px rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.fullscreen-icon {
+  transition: transform 0.3s ease;
+  line-height: 1;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .open-book {
@@ -826,6 +866,14 @@
 
   .right-arrow {
     right: -60px;
+  }
+
+  .fullscreen-button {
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+    top: 18px;
+    right: 25px;
   }
 }
 
@@ -882,6 +930,14 @@
   .back-icon {
     font-size: 20px;
   }
+
+  .fullscreen-button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    top: 15px;
+    right: 20px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -913,6 +969,14 @@
 
   .back-icon {
     font-size: 18px;
+  }
+
+  .fullscreen-button {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    top: 12px;
+    right: 15px;
   }
 }
 
@@ -1004,6 +1068,13 @@
   .back-button {
     padding: 12px 24px;
     font-size: 15px;
+  }
+  
+  /* Keep fullscreen button small too */
+  .fullscreen-button {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
   }
   
   .hint {

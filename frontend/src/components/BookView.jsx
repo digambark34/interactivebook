@@ -12,6 +12,7 @@ const BookView = () => {
   const [isFlipping, setIsFlipping] = useState(false);
   const [flipDirection, setFlipDirection] = useState('');
   const [pageFlipAngle, setPageFlipAngle] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const touchStartRef = useRef({ x: 0, y: 0 });
   const animationFrameRef = useRef(null);
   
@@ -73,6 +74,33 @@ const BookView = () => {
   const handleBackToHome = () => {
     navigate('/');
   };
+
+  // Fullscreen toggle handler
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        setIsFullscreen(true);
+      }).catch(err => {
+        console.log('Error attempting to enable fullscreen:', err);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().then(() => {
+          setIsFullscreen(false);
+        });
+      }
+    }
+  };
+
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   // Enhanced touch handling for LED touchscreen displays
   const handleTouchStart = (e) => {
@@ -373,6 +401,21 @@ const BookView = () => {
       >
         <span className="back-icon">←</span>
         <span className="back-text">Back to Library</span>
+      </motion.button>
+
+      {/* Fullscreen Button - Small in Top Right Corner */}
+      <motion.button 
+        className="fullscreen-button"
+        onClick={toggleFullscreen}
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.7, type: "spring" }}
+        whileHover={{ scale: 1.15 }}
+        whileTap={{ scale: 0.9 }}
+        style={{ background: colors?.gradient || '#1e3a8a' }}
+        title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+      >
+        <span className="fullscreen-icon">{isFullscreen ? '⤓' : '⤢'}</span>
       </motion.button>
 
     </div>
