@@ -20,46 +20,18 @@ const BookView = () => {
   const videoSrc = bookVideos[decodedBookName];
   const colors = bookColors[decodedBookName];
 
-  // Enhanced page flip sound effect with realistic paper sound
-  const playFlipSound = () => {
-    const audio = new Audio();
-    audio.src = 'data:audio/wav;base64,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';
-    audio.volume = 0.3;
-    audio.play().catch(() => {});
-  };
-
-  // Realistic page flip with 3D transformation
+  // Realistic page flip with 3D transformation - CSS-based
   const performPageFlip = (direction, targetPage) => {
     setIsFlipping(true);
     setFlipDirection(direction);
-    playFlipSound();
     
-    let startTime = null;
-    const duration = 800; // 800ms for realistic flip
-    
-    const animate = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      
-      // Easing function for realistic page flip
-      const easeInOutQuart = progress < 0.5
-        ? 8 * progress * progress * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 4) / 2;
-      
-      const angle = direction === 'next' ? easeInOutQuart * -180 : easeInOutQuart * 180;
-      setPageFlipAngle(angle);
-      
-      if (progress < 1) {
-        animationFrameRef.current = requestAnimationFrame(animate);
-      } else {
-        setCurrentPage(targetPage);
-        setPageFlipAngle(0);
-        setIsFlipping(false);
-        setFlipDirection('');
-      }
-    };
-    
-    animationFrameRef.current = requestAnimationFrame(animate);
+    // Let CSS animation handle the flip, then update page
+    setTimeout(() => {
+      setCurrentPage(targetPage);
+      setPageFlipAngle(0);
+      setIsFlipping(false);
+      setFlipDirection('');
+    }, 700); // Match CSS animation duration
   };
 
   // Navigate to next page
@@ -199,9 +171,7 @@ const BookView = () => {
             onClick={handleLeftPageClick}
             style={{ 
               cursor: currentPage > 0 ? 'pointer' : 'default',
-              touchAction: 'manipulation',
-              transform: flipDirection === 'prev' ? `rotateY(${pageFlipAngle}deg)` : 'rotateY(0deg)',
-              transformOrigin: 'right center'
+              touchAction: 'manipulation'
             }}
           >
             <div className="page-content">
@@ -276,9 +246,7 @@ const BookView = () => {
             onClick={handleRightPageClick}
             style={{ 
               cursor: currentPage < totalPages - 1 ? 'pointer' : 'default',
-              touchAction: 'manipulation',
-              transform: flipDirection === 'next' ? `rotateY(${pageFlipAngle}deg)` : 'rotateY(0deg)',
-              transformOrigin: 'left center'
+              touchAction: 'manipulation'
             }}
           >
             <AnimatePresence mode="wait">
